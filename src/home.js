@@ -15,6 +15,9 @@ import { common } from '@material-ui/core/colors';
 import Clear from '@material-ui/icons/Clear';
 import Remedies from './Remedies';
 import Reminder from './Reminder';
+import axios from 'axios';
+
+
 
 const ColorButton = withStyles((theme) => ({
   root: {
@@ -27,7 +30,7 @@ const ColorButton = withStyles((theme) => ({
     },
   },
 }))(Button);
-const axios = require('axios').default;
+
 
 const useStyles = makeStyles((theme) => ({
   
@@ -188,14 +191,14 @@ const ImageUpload = () => {
     if (image) {
       let formData = new FormData();
       formData.append('file', selectedFile);
-      let res = await axios({
-        method: 'post',
-        url: process.env.REACT_APP_API_URL,
-        data: formData,
-      });
-      if (res.status === 200) {
-        setData(res.data);
-        setDisease(res.data.class);
+      try {
+        const res = await axios.post('https://mango-detection.herokuapp.com/predict', formData);
+        if (res.status === 200) {
+          setData(res.data);
+          setDisease(res.data.class);
+        }
+      } catch (error) {
+        console.error('Error occurred while making the request:', error);
       }
       setIsloading(false);
     }
@@ -217,6 +220,7 @@ const ImageUpload = () => {
     setIsloading(true);
     sendFile();
   }, [preview, sendFile]);
+
 
   const onSelectFile = (files) => {
     if (!files || files.length === 0) {
