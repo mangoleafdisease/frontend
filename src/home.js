@@ -72,10 +72,13 @@ const useStyles = makeStyles((theme) => ({
   imageCard: {
     margin: 'auto',
     maxWidth: 400,
-    height: 500,
+    height: 'auto', // Allow the image card height to adjust based on the content
     backgroundColor: 'transparent',
     boxShadow: '0px 9px 70px 0px rgb(0 0 0 / 30%) !important',
     borderRadius: '15px',
+    [theme.breakpoints.down('xs')]: {
+      maxWidth: '100%', // Adjust the maximum width to fit smaller screens
+    },
   },
   imageCardEmpty: {
     height: 'auto',
@@ -168,6 +171,7 @@ const useStyles = makeStyles((theme) => ({
     textShadow: '2px 2px 4px rgba(0, 0, 0, 0.5)',
     color: 'blue',
   },
+  
 }));
 
 const ImageUpload = () => {
@@ -201,6 +205,9 @@ const ImageUpload = () => {
         console.error('Error occurred while making the request:', error);
       }
       setIsloading(false);
+    } else {
+      setIsloading(false);
+      setDisease('Unable to detect if not leaves of mango are uploaded.');
     }
   }, [image, selectedFile]);
 
