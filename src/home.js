@@ -197,7 +197,7 @@ const ImageUpload = () => {
       let formData = new FormData();
       formData.append('file', selectedFile);
       try {
-        const res = await axios.post('https://mango-test.herokuapp.com//predict', formData);
+        const res = await axios.post('https://mango-final.herokuapp.com/predict', formData);
         if (res.status === 200) {
           setData(res.data);
           setDisease(res.data.class);
